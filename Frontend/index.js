@@ -19,19 +19,21 @@ fetch(shoeUrl, { method: "GET"})
     .then(res => res.json())
     .then((shoeListPOJO) => {
         allShoes = shoeListPOJO
-        const shoeLi = allShoes.map((shoe) =>
-        
-        `<div class="shoe item" id="${shoe.id}">${shoe.name}</div>`)
-
-        shoeUl.innerHTML= shoeLi.join('')
-        // console.log(shoeUl)
-    
-    
-        shoeUl.addEventListener('click', (event) => {
-            let selectedShoeId = event.target.id
-            loadShoes(selectedShoeId)
-        })
+        allShoes.forEach((shoe) => turnShoeIntoLi(shoe))
     })
+
+
+function turnShoeIntoLi(shoe){
+    const shoeLi = document.createElement("li")
+    shoeLi.innerText = shoe.name
+    shoeUl.append(shoeLi)
+
+    shoeLi.addEventListener('click', (event) => {
+        loadShoes(shoe.id)
+    })
+}
+
+
 
 function loadShoes(shoeId){
     // console.log(`YOU JUST CLICKED SHOE NO. ${shoeId}`)
@@ -39,12 +41,11 @@ function loadShoes(shoeId){
         .then(res => res.json())
         .then((shoePOJO) => {
             theShoe = shoePOJO
-            // console.log(theShoe)
+         
             shoeImgDiv.src = theShoe.image
-            shoeNameDiv.innerText = theShoe.name
-            shoeDesc.innerText = `${theShoe.description}`
+            shoeNameDiv.innerText = theshoe.name
+            shoeDesc.innerText = `${theshoe.description}`
             shoePrice.innerText =`PRICE: $${theShoe.price}.00 USD`
-
             const reviewArray = theShoe.reviews.map((review) => {
                 return `<li>${review.content}</li>`})
             reviewUl.innerHTML = reviewArray.join('')
